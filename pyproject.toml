@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentic-devkit"
-version = "0.1.0"
+version = "0.1.1"
 description = "CLI and catalog for agentic documentation OS templates (greenfield + brownfield overlay)"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -17,6 +17,7 @@ dev = []
 
 [project.scripts]
 agentic-dev = "agentic_dev.cli:main"
+agentic-devkit = "agentic_dev.cli:main"
 
 [tool.uv]
 dev-dependencies = []
