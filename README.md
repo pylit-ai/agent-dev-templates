@@ -103,6 +103,4 @@ To publish each template as its own repo for `copier copy gh:org/repo` and optio
 2. Sync `templates/brownfield-dev-overlay` → `agentic-dev-brownfield-overlay` repo.
 3. Tag releases in each distribution repo so `copier update` works.
 
-See this repo's `notepads/apply/templates.md` (catalog only; not in the generated tree) for the full design rationale, decision matrix, and governance details.
-
 **Scope (v1):** GitHub custom agents (`.github/agents/*.agent.md`) are out of scope; can be added in a later release.
