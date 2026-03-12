@@ -39,6 +39,9 @@ Use it to find the correct source of truth.
 - `docs/mcp/servers.md` — MCP servers, tool contracts, and trust boundaries
 - `specs/registry.yaml` — active / superseded / archived change registry
 
+## Skills (on-demand)
+- **repo-os-greenfield-bootstrap** — After `copier copy`, run this to fill NORTHSTAR/PRD/specs placeholders and align Commands. Claude: use `.claude/commands/bootstrap-repo` or repo-bootstrapper subagent.
+
 ## Commands
 - setup: `make setup`
 - dev: `make dev`

@@ -4,6 +4,11 @@
 _subdirectory: template
 _answers_file: .copier-answers.agentic-greenfield.yml
 
+_message_after_copy: |
+  Next: run the **repo-os-greenfield-bootstrap** skill (or use the repo-bootstrapper subagent in Claude) to fill NORTHSTAR, PRD, and specs/001-bootstrap placeholders and align AGENTS.md commands.
+_message_after_update: |
+  Template updated. Re-run **repo-os-greenfield-bootstrap** if you added new placeholders; otherwise run `make verify` (or your equivalent).
+
 project_name:
   type: str
   default: "my-product"

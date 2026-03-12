@@ -1,0 +1,37 @@
+# CURRENT_STATE
+
+## Purpose
+Describe the repository as it actually exists today.
+This file is descriptive, not normative.
+
+{% if _external_data.census and (_external_data.census.manifests or _external_data.census.ci or _external_data.census.has_makefile or _external_data.census.lockfiles) %}
+## Inferred stack (from preflight census)
+Generated from `.agentic-bootstrap.yml` if you ran `repo_census.py --output .agentic-bootstrap.yml` before applying this overlay.
+- Manifests: {{ _external_data.census.manifests | default([]) | join(', ') or 'none' }}
+- Lockfiles: {{ _external_data.census.lockfiles | default([]) | join(', ') or 'none' }}
+- CI workflows: {{ _external_data.census.ci | default([]) | join(', ') or 'none' }}
+- Makefile: {{ 'yes' if _external_data.census.get('has_makefile') else 'no' }}
+- Test dirs: {{ _external_data.census.test_dirs | default([]) | join(', ') or 'none' }}
+- Docs dirs: {{ _external_data.census.docs_dirs | default([]) | join(', ') or 'none' }}
+
+{% endif %}
+## Current architecture
+- <component> does <thing>
+- <component> depends on <thing>
+
+## Known mismatches
+- <mismatch 1>
+- <mismatch 2>
+
+## Fragile areas
+- <path> — <reason>
+- <path> — <reason>
+
+## Characterization tests that must keep passing
+- <suite>
+- <suite>
+
+## Unsafe assumptions
+- naming is not fully consistent
+- dead code is not safe to remove without dependency search
+- some tests are descriptive, not authoritative

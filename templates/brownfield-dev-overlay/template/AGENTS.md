@@ -39,6 +39,9 @@ Use it to find the correct source of truth.
 - `docs/governance/DOCS_SYSTEM.md` — documentation taxonomy and precedence
 - `specs/registry.yaml` — active / superseded / archived change registry
 
+## Skills (on-demand, explicit only)
+- **repo-os-brownfield-intake** — Run only when explicitly requested: draft CURRENT_STATE, create first migration spec, handoff summary. Claude: `.claude/commands/intake-brownfield`. Do not invoke implicitly.
+
 ## Commands
 - setup: `make setup` (or your repo’s equivalent)
 - dev: `make dev`

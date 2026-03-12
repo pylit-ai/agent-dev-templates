@@ -1,5 +1,7 @@
 .venv/
 .uv/
+.DS_Store
+.repomix/
 __pycache__/
 *.pyc
 .copier-answers.yml

@@ -1,0 +1,9 @@
+# Codex/OpenCode skill metadata
+# Brownfield intake is invasive; require explicit invocation only.
+
+interface:
+  display_name: "Brownfield repo intake"
+  short_description: "Draft CURRENT_STATE, reconcile docs, and create first migration spec"
+
+policy:
+  allow_implicit_invocation: false

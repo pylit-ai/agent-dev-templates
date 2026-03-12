@@ -8,8 +8,8 @@ Design principle: **one canonical truth layer, thin tool adapters, zero duplicat
 
 | Template | Use case |
 |----------|----------|
-| **greenfield-dev-os** | New repo: NORTHSTAR, CONSTITUTION, AGENTS, PRD, docs governance, specs, adapters (Claude, Copilot, Cursor, OpenCode). |
-| **brownfield-dev-overlay** | Existing repo: add CURRENT_STATE, MIGRATION_GUARDRAILS, brownfield AGENTS.md, governance, and spec discipline without rewriting the repo. |
+| **greenfield-dev-os** | New repo: NORTHSTAR, CONSTITUTION, AGENTS, PRD, docs governance, specs, adapters (Claude, Copilot, Cursor, OpenCode), and **repo-os-greenfield-bootstrap** skill. |
+| **brownfield-dev-overlay** | Existing repo: add CURRENT_STATE, MIGRATION_GUARDRAILS, brownfield AGENTS.md, governance, spec discipline, and **repo-os-brownfield-intake** skill (explicit-only). |
 
 ## Quick start
 
@@ -75,9 +75,20 @@ repo/
 ├── .cursor/
 │   └── rules/
 │       └── 00-router.mdc
+├── .agents/
+│   └── skills/
+│       └── repo-os-greenfield-bootstrap/
+│           ├── SKILL.md
+│           ├── scripts/
+│           ├── references/
+│           └── agents/
+├── .claude/
+│   ├── agents/
+│   │   └── repo-bootstrapper.md
+│   └── commands/
+│       └── bootstrap-repo.md
 └── skills/
-    └── example-skill/
-        └── SKILL.md
+    └── README.md   # points to .agents/skills
 ```
 
 ## Requirements

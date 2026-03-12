@@ -8,6 +8,17 @@ This overlay adds the agentic documentation operating system to an **existing** 
 - Git-managed repo
 - [Copier](https://copier.readthedocs.io/) installed (`pip install copier` or `uv add copier`)
 
+## Optional: preflight census
+
+To let the overlay prefill **CURRENT_STATE** from repo structure (manifests, CI, lockfiles, test/docs dirs), run the census script and write the result into the repo root **before** applying:
+
+```bash
+cd my-existing-repo
+python .agents/skills/repo-os-brownfield-intake/scripts/repo_census.py . --format yaml --output .agentic-bootstrap.yml
+```
+
+Then apply the overlay. Copier loads `.agentic-bootstrap.yml` as `_external_data.census` and the template will add an "Inferred stack" section to CURRENT_STATE.md. The same file can be used by the brownfield-intake skill as structured input.
+
 ## Apply once
 
 From the **parent** of your repo (e.g. `~/src`):
