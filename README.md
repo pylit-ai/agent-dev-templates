@@ -13,33 +13,61 @@ Design principle: **one canonical truth layer, thin tool adapters, zero duplicat
 
 ## Quick start
 
-### Greenfield (new repo)
+**No clone required.** Use a published distribution repo with `uvx` (or `pipx`), or the wrapper CLI.
+
+### 1) Easiest: wrapper CLI (no Copier syntax)
+
+Requires [uv](https://docs.astral.sh/uv/) (or install this catalog and run `uv run agentic-dev`):
 
 ```bash
-# From this catalog (clone or path)
+# New repo
+uvx agentic-dev init my-new-repo
+
+# Existing repo (apply brownfield overlay)
+cd my-existing-repo
+uvx agentic-dev overlay .
+
+# Brownfield with preflight census
+uvx agentic-dev overlay . --intake
+```
+
+Set `AGENTIC_DEV_GREENFIELD_SOURCE` and `AGENTIC_DEV_BROWNFIELD_SOURCE` if your org’s distribution repos use different names (default: `gh:your-org/agentic-dev-greenfield` and `gh:your-org/agentic-dev-brownfield-overlay`).
+
+### 2) Remote Copier (zero-clone)
+
+```bash
+# New repo
+uvx copier copy gh:your-org/agentic-dev-greenfield my-new-repo
+
+# Existing repo (run from repo root)
+cd my-existing-repo
+uvx copier copy gh:your-org/agentic-dev-brownfield-overlay .
+```
+
+With pipx: `pipx run copier copy gh:your-org/agentic-dev-greenfield my-new-repo` (same pattern).
+
+### 3) Updates (after you’ve applied once)
+
+```bash
+cd my-repo
+copier update --answers-file .copier-answers.agentic-greenfield.yml   # greenfield
+copier update --answers-file .copier-answers.agentic-brownfield.yml # brownfield
+```
+
+### 4) Fallback: local catalog
+
+If you have cloned this catalog:
+
+```bash
 copier copy ./templates/greenfield-dev-os ./my-new-repo
-cd my-new-repo
-# Fill NORTHSTAR.md, PRD.md, specs/001-bootstrap; run make setup / make verify when you add real commands
-```
-
-Or use a published distribution repo (if you maintain one):
-
-```bash
-copier copy gh:org/agentic-dev-greenfield ./my-new-repo
-```
-
-**Optional:** Mark the distribution repo as a [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for “Use this template” one-click create. For **updateable** lineage, use Copier; answers are stored in `.copier-answers.agentic-greenfield.yml` so you can run `copier update` later (and coexist with other templates).
-
-### Brownfield (existing repo)
-
-```bash
-# From this catalog
 copier copy ./templates/brownfield-dev-overlay /path/to/existing-repo
-cd /path/to/existing-repo
-# Fill CURRENT_STATE.md, then use specs/ for each non-trivial change
 ```
 
-See `templates/brownfield-dev-overlay/template/APPLY.md` for full instructions.
+Use `uv sync` then `uv run copier ...` (Copier is a dependency of this project).
+
+**Greenfield UX:** For “Use this template” one-click, mark the distribution repo as a [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template). For **updateable** lineage, use Copier; answers are in `.copier-answers.agentic-greenfield.yml` / `.copier-answers.agentic-brownfield.yml`.
+
+See `templates/brownfield-dev-overlay/template/APPLY.md` for brownfield details.
 
 ## Layout (greenfield)
 
@@ -93,7 +121,8 @@ repo/
 
 ## Requirements
 
-- [Copier](https://copier.readthedocs.io/) — use the catalog’s dev env: `uv sync --extra dev` then `uv run copier ...`, or install globally: `pip install copier`
+- **Remote / wrapper:** [uv](https://docs.astral.sh/uv/) and `uvx` (or `pipx run copier`) — no persistent Copier install.
+- **Local catalog:** `uv sync` then `uv run copier ...` or `uv run agentic-dev ...` (Copier is a dependency).
 
 ## Publishing (maintainers)
 

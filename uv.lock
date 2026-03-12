@@ -5,24 +5,17 @@ requires-python = ">=3.10"
 [[package]]
 name = "agent-dev-templates"
 version = "0.1.0"
-source = { virtual = "." }
-
-[package.optional-dependencies]
-dev = [
-    { name = "copier" },
-]
-
-[package.dev-dependencies]
-dev = [
+source = { editable = "." }
+dependencies = [
     { name = "copier" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "copier", marker = "extra == 'dev'", specifier = ">=9.0" }]
+requires-dist = [{ name = "copier", specifier = ">=9.0" }]
 provides-extras = ["dev"]
 
 [package.metadata.requires-dev]
-dev = [{ name = "copier", specifier = ">=9.0" }]
+dev = []
 
 [[package]]
 name = "annotated-types"

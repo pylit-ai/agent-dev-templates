@@ -6,34 +6,46 @@ This overlay adds the agentic documentation operating system to an **existing** 
 
 - Clean working tree (commit or stash changes)
 - Git-managed repo
-- [Copier](https://copier.readthedocs.io/) installed (`pip install copier` or `uv add copier`)
+
+## Apply once (no clone required)
+
+**Preferred:** use the wrapper CLI or remote Copier source. No need to clone the template repo.
+
+From **inside** your existing repo root:
+
+```bash
+# Easiest: wrapper (runs census optionally, then Copier)
+uvx agentic-dev overlay .
+# With preflight census to prefill CURRENT_STATE:
+uvx agentic-dev overlay . --intake
+```
+
+Or with Copier directly:
+
+```bash
+uvx copier copy gh:your-org/agentic-dev-brownfield-overlay .
+```
+
+With pipx: `pipx run copier copy gh:your-org/agentic-dev-brownfield-overlay .`
+
+**Fallback** (local template path):
+
+```bash
+copier copy path/to/agentic-dev-brownfield-overlay .
+```
+
+Answer the prompts. Files are written into the repo; existing files are not overwritten by default (Copier will ask or skip). Review diffs before committing.
 
 ## Optional: preflight census
 
-To let the overlay prefill **CURRENT_STATE** from repo structure (manifests, CI, lockfiles, test/docs dirs), run the census script and write the result into the repo root **before** applying:
+To let the overlay prefill **CURRENT_STATE** from repo structure (manifests, CI, lockfiles, test/docs dirs), run the census and write the result **before** applying:
 
 ```bash
 cd my-existing-repo
 python .agents/skills/repo-os-brownfield-intake/scripts/repo_census.py . --format yaml --output .agentic-bootstrap.yml
 ```
 
-Then apply the overlay. Copier loads `.agentic-bootstrap.yml` as `_external_data.census` and the template will add an "Inferred stack" section to CURRENT_STATE.md. The same file can be used by the brownfield-intake skill as structured input.
-
-## Apply once
-
-From the **parent** of your repo (e.g. `~/src`):
-
-```bash
-copier copy path/to/agentic-dev-brownfield-overlay my-existing-repo
-```
-
-Or from a published template URL:
-
-```bash
-copier copy gh:org/agentic-dev-brownfield-overlay ./my-existing-repo
-```
-
-Answer the prompts. Files are written into the repo; existing files are not overwritten by default (Copier will ask or skip). Review diffs before committing.
+Then apply the overlay. Copier loads `.agentic-bootstrap.yml` as `_external_data.census` and the template will add an "Inferred stack" section to CURRENT_STATE.md. Or use `uvx agentic-dev overlay . --intake` to do both.
 
 ## Update later
 
@@ -43,6 +55,8 @@ After applying, Copier stores answers in **`.copier-answers.agentic-brownfield.y
 cd my-existing-repo
 copier update --answers-file .copier-answers.agentic-brownfield.yml
 ```
+
+(Requires Copier installed: `uv sync` in a repo that depends on this template, or `pip install copier` / `uv tool install copier`.)
 
 ## What this overlay adds
 

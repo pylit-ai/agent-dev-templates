@@ -1,17 +1,25 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "agent-dev-templates"
 version = "0.1.0"
 description = "Catalog of agentic documentation operating system templates (greenfield + brownfield overlay)"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+  "copier>=9.0",
+]
 
 [project.optional-dependencies]
-dev = [
-  "copier>=9.0",
-]
+dev = []
+
+[project.scripts]
+agentic-dev = "agentic_dev.cli:main"
 
 [tool.uv]
-dev-dependencies = [
-  "copier>=9.0",
-]
+dev-dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
