@@ -1,0 +1,20 @@
+# Copier config for agentic greenfield dev OS template
+# See https://copier.readthedocs.io/ (March 2025)
+
+_subdirectory: template
+_answers_file: .copier-answers.agentic-greenfield.yml
+
+project_name:
+  type: str
+  default: "my-product"
+  help: Product or project name used in NORTHSTAR and PRD placeholders
+
+repo_slug:
+  type: str
+  default: "{{ project_name | lower | replace(' ', '-') }}"
+  help: Repository slug (defaults to lowercased project name)
+
+make_available:
+  type: bool
+  default: true
+  help: Create a minimal Makefile with setup, dev, test, lint, typecheck, verify targets?

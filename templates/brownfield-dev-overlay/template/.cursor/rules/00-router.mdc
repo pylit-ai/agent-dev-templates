@@ -1,0 +1,11 @@
+---
+description: Canonical router for repository documentation
+alwaysApply: true
+---
+
+- Read `AGENTS.md` first.
+- For documentation-structure changes, read `docs/governance/DOCS_SYSTEM.md`.
+- For project-wide invariants, read `CONSTITUTION.md`.
+- For legacy code changes, read `CURRENT_STATE.md` and `MIGRATION_GUARDRAILS.md` before editing.
+- For feature work, read the active spec bundle before making changes.
+- Do not duplicate policy from canonical docs into Cursor rules.

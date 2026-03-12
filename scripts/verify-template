@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Verify a Copier template renders without error.
+# Usage: ./scripts/verify-template greenfield-dev-os
+#        ./scripts/verify-template brownfield-dev-overlay
+
+set -e
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CATALOG_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+TEMPLATE_NAME="${1:-greenfield-dev-os}"
+TEMPLATE_PATH="$CATALOG_ROOT/templates/$TEMPLATE_NAME"
+DEST=$(mktemp -d)
+
+if [[ ! -d "$TEMPLATE_PATH" ]]; then
+  echo "Template not found: $TEMPLATE_PATH"
+  exit 1
+fi
+
+echo "Verifying template: $TEMPLATE_NAME"
+echo "Destination: $DEST"
+
+# Use uv run so catalog's dev dependency (copier) is used
+cd "$CATALOG_ROOT" && uv run copier copy --defaults "$TEMPLATE_PATH" "$DEST"
+
+echo "Rendered output:"
+find "$DEST" -type f | head -60
+
+echo "Done. Remove with: rm -rf $DEST"

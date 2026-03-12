@@ -1,0 +1,84 @@
+# CI: template copy/update and governance checks
+# See notepads/apply/review.md for the four test cases.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  templates:
+    name: Copier copy & update
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv sync --extra dev
+
+      - name: "1) copier copy greenfield into empty dir"
+        run: |
+          D=$(mktemp -d)
+          uv run copier copy --defaults ./templates/greenfield-dev-os "$D"
+          test -f "$D/AGENTS.md"
+          test -f "$D/docs/governance/DOCS_SYSTEM.md"
+          test -f "$D/.copier-answers.agentic-greenfield.yml"
+          echo "Greenfield copy OK"
+
+      - name: "2) copier update greenfield (same dir)"
+        run: |
+          D=$(mktemp -d)
+          uv run copier copy --defaults ./templates/greenfield-dev-os "$D"
+          uv run copier update --defaults ./templates/greenfield-dev-os "$D"
+          test -f "$D/AGENTS.md"
+          echo "Greenfield update OK"
+
+      - name: "3) copier copy brownfield into mocked existing repo"
+        run: |
+          D=$(mktemp -d)
+          touch "$D/README.md" "$D/existing-file.txt"
+          uv run copier copy --defaults ./templates/brownfield-dev-overlay "$D"
+          test -f "$D/AGENTS.md"
+          test -f "$D/CURRENT_STATE.md"
+          test -f "$D/.copier-answers.agentic-brownfield.yml"
+          test -f "$D/existing-file.txt"
+          echo "Brownfield copy into existing OK"
+
+      - name: "4) copier update brownfield with answers file"
+        run: |
+          D=$(mktemp -d)
+          uv run copier copy --defaults ./templates/brownfield-dev-overlay "$D"
+          uv run copier update --defaults --answers-file .copier-answers.agentic-brownfield.yml ./templates/brownfield-dev-overlay "$D"
+          test -f "$D/MIGRATION_GUARDRAILS.md"
+          echo "Brownfield update with answers file OK"
+
+  governance:
+    name: Governance checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv sync --extra dev
+
+      - name: Run governance checks
+        run: ./scripts/check-governance

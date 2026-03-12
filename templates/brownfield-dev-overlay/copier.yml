@@ -1,0 +1,6 @@
+# Copier config for agentic brownfield overlay
+# Apply to an existing repo to add docs governance and spec discipline.
+# See https://copier.readthedocs.io/ (March 2025)
+
+_subdirectory: template
+_answers_file: .copier-answers.agentic-brownfield.yml

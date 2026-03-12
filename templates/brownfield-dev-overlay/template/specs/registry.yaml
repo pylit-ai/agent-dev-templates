@@ -1,0 +1,18 @@
+version: 1
+
+statuses:
+  - proposed
+  - active
+  - blocked
+  - implemented
+  - superseded
+  - archived
+
+rules:
+  - no two active specs may touch the same surface unless they declare a dependency or an explicit non-overlap
+  - a superseded spec must name its replacement
+  - an implemented spec must be archived after enduring decisions are promoted
+  - each spec must have one owner
+  - each spec must define verification
+
+specs: []

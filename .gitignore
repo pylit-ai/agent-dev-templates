@@ -1,0 +1,11 @@
+.venv/
+.uv/
+__pycache__/
+*.pyc
+.copier-answers.yml
+.copier-answers.agentic-greenfield.yml
+.copier-answers.agentic-brownfield.yml
+/tmp/
+*.egg-info/
+dist/
+build/

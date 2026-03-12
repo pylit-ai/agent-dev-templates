@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Lightweight governance checks for template payloads.
+# - YAML load of context-registry.yaml and specs/registry.yaml
+# - Adapter files <= 40 lines (DOCS_SYSTEM anti-clutter rule)
+# - Every active spec in registry has specs/<id>/ with spec.md, plan.md, tasks.md
+# Run from repo root.
+
+set -e
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CATALOG_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+MAX_ADAPTER_LINES=40
+ERRORS=0
+
+check_yaml() {
+  local f="$1"
+  if ! (cd "$CATALOG_ROOT" && uv run python3 -c "import yaml; yaml.safe_load(open('$f'))") 2>/dev/null; then
+    echo "FAIL: $f is not valid YAML or failed to load"
+    ((ERRORS++)) || true
+  fi
+}
+
+check_adapter_lines() {
+  local dir="$1"
+  local adapter
+  # Adapters only (per context-registry); AGENTS.md is canonical, not an adapter
+  for adapter in CLAUDE.md .github/copilot-instructions.md .cursor/rules/00-router.mdc; do
+    if [[ -f "$dir/$adapter" ]]; then
+      n=$(wc -l < "$dir/$adapter")
+      if [[ "$n" -gt "$MAX_ADAPTER_LINES" ]]; then
+        echo "FAIL: $dir/$adapter has $n lines (max $MAX_ADAPTER_LINES)"
+        ((ERRORS++)) || true
+      fi
+    fi
+  done
+}
+
+check_active_specs_exist() {
+  local dir="$1"
+  local reg="$dir/specs/registry.yaml"
+  [[ -f "$reg" ]] || return 0
+  while read -r id; do
+    [[ -z "$id" ]] && continue
+    for f in spec.md plan.md tasks.md; do
+      if [[ ! -f "$dir/specs/$id/$f" ]]; then
+        echo "FAIL: active spec $id missing $dir/specs/$id/$f"
+        ((ERRORS++)) || true
+      fi
+    done
+  done < <(cd "$CATALOG_ROOT" && uv run python3 -c '
+import yaml, sys
+with open(sys.argv[1]) as f:
+    d = yaml.safe_load(f)
+for s in (d.get("specs") or []):
+    if s.get("status") == "active":
+        print(s.get("id", ""))
+' "$reg" 2>/dev/null)
+}
+
+cd "$CATALOG_ROOT"
+
+echo "Checking greenfield template..."
+GF="$CATALOG_ROOT/templates/greenfield-dev-os/template"
+[[ -d "$GF" ]] || { echo "Missing $GF"; exit 1; }
+check_yaml "$GF/docs/governance/context-registry.yaml"
+check_yaml "$GF/specs/registry.yaml"
+check_adapter_lines "$GF"
+check_active_specs_exist "$GF"
+
+echo "Checking brownfield template..."
+BF="$CATALOG_ROOT/templates/brownfield-dev-overlay/template"
+[[ -d "$BF" ]] || { echo "Missing $BF"; exit 1; }
+check_yaml "$BF/docs/governance/context-registry.yaml"
+check_yaml "$BF/specs/registry.yaml"
+check_adapter_lines "$BF"
+# Brownfield registry may have empty specs list; still check structure
+check_active_specs_exist "$BF"
+
+if [[ $ERRORS -gt 0 ]]; then
+  echo "Total failures: $ERRORS"
+  exit 1
+fi
+echo "Governance checks passed."
