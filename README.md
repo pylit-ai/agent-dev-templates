@@ -13,22 +13,22 @@ Design principle: **one canonical truth layer, thin tool adapters, zero duplicat
 
 ## Quick start
 
-**No clone required.** Use a published distribution repo with `uvx` (or `pipx`), or the wrapper CLI.
+**No clone required** once the CLI is [published to PyPI](#publishing-maintainers) and template repos are published (see below). Until then, use this catalog locally with `uv run agentic-dev` or the Copier commands.
 
 ### 1) Easiest: wrapper CLI (no Copier syntax)
 
-Requires [uv](https://docs.astral.sh/uv/) (or install this catalog and run `uv run agentic-dev`):
+Requires [uv](https://docs.astral.sh/uv/). After the package is on PyPI as `agentic-devkit`, `uvx agentic-devkit` runs it with no install; otherwise run from this repo: `uv run agentic-dev`.
 
 ```bash
 # New repo
-uvx agentic-dev init my-new-repo
+uvx agentic-devkit init my-new-repo
 
 # Existing repo (apply brownfield overlay)
 cd my-existing-repo
-uvx agentic-dev overlay .
+uvx agentic-devkit overlay .
 
 # Brownfield with preflight census
-uvx agentic-dev overlay . --intake
+uvx agentic-devkit overlay . --intake
 ```
 
 Set `AGENTIC_DEV_GREENFIELD_SOURCE` and `AGENTIC_DEV_BROWNFIELD_SOURCE` if your org’s distribution repos use different names (default: `gh:your-org/agentic-dev-greenfield` and `gh:your-org/agentic-dev-brownfield-overlay`).

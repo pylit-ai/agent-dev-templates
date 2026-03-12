@@ -15,9 +15,9 @@ From **inside** your existing repo root:
 
 ```bash
 # Easiest: wrapper (runs census optionally, then Copier)
-uvx agentic-dev overlay .
+uvx agentic-devkit overlay .
 # With preflight census to prefill CURRENT_STATE:
-uvx agentic-dev overlay . --intake
+uvx agentic-devkit overlay . --intake
 ```
 
 Or with Copier directly:
@@ -45,7 +45,7 @@ cd my-existing-repo
 python .agents/skills/repo-os-brownfield-intake/scripts/repo_census.py . --format yaml --output .agentic-bootstrap.yml
 ```
 
-Then apply the overlay. Copier loads `.agentic-bootstrap.yml` as `_external_data.census` and the template will add an "Inferred stack" section to CURRENT_STATE.md. Or use `uvx agentic-dev overlay . --intake` to do both.
+Then apply the overlay. Copier loads `.agentic-bootstrap.yml` as `_external_data.census` and the template will add an "Inferred stack" section to CURRENT_STATE.md. Or use `uvx agentic-devkit overlay . --intake` to do both.
 
 ## Update later
 

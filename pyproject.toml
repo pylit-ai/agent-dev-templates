@@ -3,9 +3,9 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agent-dev-templates"
+name = "agentic-devkit"
 version = "0.1.0"
-description = "Catalog of agentic documentation operating system templates (greenfield + brownfield overlay)"
+description = "CLI and catalog for agentic documentation OS templates (greenfield + brownfield overlay)"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
