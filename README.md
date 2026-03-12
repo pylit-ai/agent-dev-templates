@@ -1,75 +1,104 @@
-# Agentic dev templates
+# agentic-devkit
 
-Catalog of Copier-based templates for the **agentic documentation operating system**: layered docs, spec-driven development, thin `AGENTS.md` router, and governance so multiple agents (Cursor, Claude Code, Codex, Copilot, OpenCode) share one canonical truth.
+**Templates and CLI for the agentic documentation OS** — one `AGENTS.md` router, layered docs, spec-driven work. Cursor, Claude, Copilot share one source of truth.
 
-Design principle: **one canonical truth layer, thin tool adapters, zero duplicated policy.**
+[![PyPI](https://img.shields.io/pypi/v/agentic-devkit.svg)](https://pypi.org/project/agentic-devkit/)  
+[**PyPI**](https://pypi.org/project/agentic-devkit/) · [**GitHub**](https://github.com/pylit-ai/agentic-devkit)
 
-## Templates
-
-| Template | Use case |
-|----------|----------|
-| **greenfield-dev-os** | New repo: NORTHSTAR, CONSTITUTION, AGENTS, PRD, docs governance, specs, adapters (Claude, Copilot, Cursor, OpenCode), and **repo-os-greenfield-bootstrap** skill. |
-| **brownfield-dev-overlay** | Existing repo: add CURRENT_STATE, MIGRATION_GUARDRAILS, brownfield AGENTS.md, governance, spec discipline, and **repo-os-brownfield-intake** skill (explicit-only). |
+---
 
 ## Quick start
-
-**No clone required** once the CLI is [published to PyPI](#publishing-maintainers) and template repos are published (see below). Until then, use this catalog locally with `uv run agentic-dev` or the Copier commands.
-
-### 1) Easiest: wrapper CLI (no Copier syntax)
-
-Requires [uv](https://docs.astral.sh/uv/). After the package is on PyPI as `agentic-devkit`, `uvx agentic-devkit` runs it with no install; otherwise run from this repo: `uv run agentic-dev`.
 
 ```bash
 # New repo
 uvx agentic-devkit init my-new-repo
 
-# Existing repo (apply brownfield overlay)
-cd my-existing-repo
-uvx agentic-devkit overlay .
+# Existing repo
+cd my-existing-repo && uvx agentic-devkit overlay .
 
-# Brownfield with preflight census
+# Existing repo + prefill CURRENT_STATE from repo structure
 uvx agentic-devkit overlay . --intake
 ```
 
-Set `AGENTIC_DEV_GREENFIELD_SOURCE` and `AGENTIC_DEV_BROWNFIELD_SOURCE` if your org’s distribution repos use different names (default: `gh:your-org/agentic-dev-greenfield` and `gh:your-org/agentic-dev-brownfield-overlay`).
+Requires [uv](https://docs.astral.sh/uv/) (or `pip install agentic-devkit`).
 
-### 2) Remote Copier (zero-clone)
+---
+
+## What you get
+
+| Template | Use case |
+|----------|----------|
+| **Greenfield** | New repo: NORTHSTAR, CONSTITUTION, AGENTS.md, PRD, governance, specs, adapters, bootstrap skill. |
+| **Brownfield** | Existing repo: CURRENT_STATE, MIGRATION_GUARDRAILS, brownfield AGENTS.md, governance, intake skill. |
+
+Then **point your agent at AGENTS.md** in the new repo. For greenfield, give a one-sentence product brief in the same chat (e.g. *“CLI for dev teams so they can run templates with less setup”*); the agent fills placeholders or asks if it needs more. For brownfield, ask explicitly for “brownfield intake” when you want CURRENT_STATE and the first spec.
+
+<details>
+<summary><strong>Greenfield — objectives, prompt, what gets filled</strong></summary>
+
+**Objectives:** The agent only has the project name from `init` (or “my-product”). You define the rest by saying it in the same message as the bootstrap prompt, or the skill tells the agent to ask for product name, primary user, and core outcome.
+
+**Copy-paste prompt** (add your one-sentence brief first):
+
+```
+Run the repo-os-greenfield-bootstrap skill: read AGENTS.md and .agents/skills/repo-os-greenfield-bootstrap/SKILL.md, then fill NORTHSTAR.md, PRD.md, docs/architecture/overview.md, and specs/001-bootstrap using .agents/skills/repo-os-greenfield-bootstrap/references/rubric.md. Align AGENTS.md with our real commands. Run scripts/check-governance if present.
+```
+
+**What gets filled:** NORTHSTAR (mission, personas, thesis, non-goals, kill criteria) · PRD (product, users, scope, stories, requirements) · docs/architecture/overview · specs/001-bootstrap (in-scope, acceptance criteria, verifiers). Cursor: `.agents/skills/repo-os-greenfield-bootstrap/`. Claude: `.claude/commands/bootstrap-repo.md` or repo-bootstrapper subagent.
+
+</details>
+
+<details>
+<summary><strong>Brownfield — intake prompt</strong></summary>
+
+Run only when you explicitly ask (e.g. “run brownfield intake” or “draft CURRENT_STATE”).
+
+```
+Run the repo-os-brownfield-intake skill: read AGENTS.md and .agents/skills/repo-os-brownfield-intake/SKILL.md. Run the repo census script, draft CURRENT_STATE.md using the brownfield rubric, propose (don’t overwrite) NORTHSTAR/PRD deltas, create the first spec bundle in specs/ and register it. Run scripts/check-governance if present. Give me a short handoff summary.
+```
+
+Cursor: `.agents/skills/repo-os-brownfield-intake/`. Claude: `.claude/commands/intake-brownfield.md`.
+
+</details>
+
+<details>
+<summary><strong>Key artifacts (NORTHSTAR, AGENTS, PRD, …)</strong></summary>
+
+| Artifact | Purpose |
+|----------|---------|
+| **AGENTS.md** | Entrypoint for agents: read order, commands, boundaries. |
+| **NORTHSTAR.md** | Vision: goals, non-goals, success criteria. |
+| **CONSTITUTION.md** | Principles, doc hierarchy. |
+| **PRD.md** | Product scope, users, tradeoffs. |
+| **specs/** | Spec-driven work; each change has a spec + registry entry. |
+| **CURRENT_STATE.md** | (Brownfield) As-is: architecture, debt, fragile areas. |
+| **MIGRATION_GUARDRAILS.md** | (Brownfield) Rules for safe change. |
+
+Adapters (CLAUDE.md, Copilot, .cursor/rules) are thin; they point at these and `.agents/skills/`.
+
+</details>
+
+<details>
+<summary><strong>Other ways to run (Copier, pipx, local)</strong></summary>
 
 ```bash
-# New repo
+# Remote Copier
 uvx copier copy gh:your-org/agentic-dev-greenfield my-new-repo
+cd my-existing-repo && uvx copier copy gh:your-org/agentic-dev-brownfield-overlay .
 
-# Existing repo (run from repo root)
-cd my-existing-repo
-uvx copier copy gh:your-org/agentic-dev-brownfield-overlay .
-```
-
-With pipx: `pipx run copier copy gh:your-org/agentic-dev-greenfield my-new-repo` (same pattern).
-
-### 3) Updates (after you’ve applied once)
-
-```bash
-cd my-repo
+# Updates (after applying once)
 copier update --answers-file .copier-answers.agentic-greenfield.yml   # greenfield
-copier update --answers-file .copier-answers.agentic-brownfield.yml # brownfield
+copier update --answers-file .copier-answers.agentic-brownfield.yml   # brownfield
+
+# Local clone
+git clone https://github.com/pylit-ai/agentic-devkit.git && cd agentic-devkit && uv sync
+uv run agentic-dev init my-new-repo
 ```
 
-### 4) Fallback: local catalog
+</details>
 
-If you have cloned this catalog:
-
-```bash
-copier copy ./templates/greenfield-dev-os ./my-new-repo
-copier copy ./templates/brownfield-dev-overlay /path/to/existing-repo
-```
-
-Use `uv sync` then `uv run copier ...` (Copier is a dependency of this project).
-
-**Greenfield UX:** For “Use this template” one-click, mark the distribution repo as a [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template). For **updateable** lineage, use Copier; answers are in `.copier-answers.agentic-greenfield.yml` / `.copier-answers.agentic-brownfield.yml`.
-
-See `templates/brownfield-dev-overlay/template/APPLY.md` for brownfield details.
-
-## Layout (greenfield)
+<details>
+<summary><strong>Greenfield repo layout</strong></summary>
 
 ```
 repo/
@@ -99,37 +128,26 @@ repo/
 ├── .github/
 │   ├── copilot-instructions.md
 │   └── instructions/
-│       └── backend.instructions.md
 ├── .cursor/
 │   └── rules/
 │       └── 00-router.mdc
 ├── .agents/
 │   └── skills/
 │       └── repo-os-greenfield-bootstrap/
-│           ├── SKILL.md
-│           ├── scripts/
-│           ├── references/
-│           └── agents/
 ├── .claude/
 │   ├── agents/
 │   │   └── repo-bootstrapper.md
 │   └── commands/
 │       └── bootstrap-repo.md
 └── skills/
-    └── README.md   # points to .agents/skills
+    └── README.md   # → .agents/skills
 ```
 
-## Requirements
+</details>
 
-- **Remote / wrapper:** [uv](https://docs.astral.sh/uv/) and `uvx` (or `pipx run copier`) — no persistent Copier install.
-- **Local catalog:** `uv sync` then `uv run copier ...` or `uv run agentic-dev ...` (Copier is a dependency).
+<details>
+<summary><strong>Requirements & maintainers</strong></summary>
 
-## Publishing (maintainers)
+[uv](https://docs.astral.sh/uv/) + `uvx`, or `pip install agentic-devkit`. Publishing: sync templates to distribution repos, tag releases. [docs/maintainers/publish-workflow.md](docs/maintainers/publish-workflow.md).
 
-To publish each template as its own repo for `copier copy gh:org/repo` and optional GitHub template UX:
-
-1. Sync `templates/greenfield-dev-os` → `agentic-dev-greenfield` repo (e.g. via script).
-2. Sync `templates/brownfield-dev-overlay` → `agentic-dev-brownfield-overlay` repo.
-3. Tag releases in each distribution repo so `copier update` works.
-
-**Scope (v1):** GitHub custom agents (`.github/agents/*.agent.md`) are out of scope; can be added in a later release.
+</details>
