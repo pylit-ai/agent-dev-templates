@@ -62,7 +62,7 @@ def cmd_intake(path: str) -> int:
     print(f"   uvx agentic-devkit overlay {path}")
     print()
     print("3. Run the repo-os-brownfield-intake skill (explicit only) to draft CURRENT_STATE.md and create the first spec.")
-    print("   Use your agent’s skill or .claude/commands/intake-brownfield.md.")
+    print("   Use your agent's skill or .claude/commands/intake-brownfield.md.")
     return 0
 
 

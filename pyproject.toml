@@ -16,8 +16,8 @@ dependencies = [
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-agentic-dev = "agentic_dev.cli:main"
-agentic-devkit = "agentic_dev.cli:main"
+agentic-dev = "agentic_devkit.cli:main"
+agentic-devkit = "agentic_devkit.cli:main"
 
 [tool.uv]
 dev-dependencies = []

@@ -12,7 +12,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 # Census logic (same as skill script); use package if available
 try:
-    from agentic_dev.census import census
+    from agentic_devkit.census import census
 except ImportError:
     # Fallback when running from repo root without install: run census script in-process
     import importlib.util

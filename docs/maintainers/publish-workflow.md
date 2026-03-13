@@ -62,7 +62,7 @@ After adding the trusted publisher on PyPI, create a **GitHub release** (or run 
 
 ### PyPI name: hyphens and good names
 
-- **Hyphens are good.** PyPI normalizes project names; we use **`agentic-devkit`**. The *import* name stays `agentic_dev`; we use `[project.scripts] agentic-dev = "agentic_dev.cli:main"` so the installed command is `agentic-dev`.
+- **Hyphens are good.** PyPI normalizes project names; we use **`agentic-devkit`**. The *import* name is `agentic_devkit`; we use `[project.scripts] agentic-dev = "agentic_devkit.cli:main"` so the installed command is `agentic-dev`.
 
 ### Is the name available?
 
