@@ -2,7 +2,7 @@
 name: repo-os-brownfield-intake
 description: >-
   Inventories repo structure, CI, manifests, and tests; drafts CURRENT_STATE.md;
-  proposes deltas for NORTHSTAR/PRD; creates the first brownfield spec bundle and
+  proposes deltas for NORTHSTAR, CONSTITUTION, and PRD; creates the first brownfield spec bundle and
   registry entry; runs governance checks; produces a handoff summary. Use only
   when the user explicitly requests brownfield intake or "draft CURRENT_STATE."
   Never invoke implicitly.
@@ -19,7 +19,7 @@ Run **only when explicitly requested** after applying the brownfield overlay to 
 ## When not to use
 
 - Do **not** run on "legacy" or "refactor" alone. Requires explicit request.
-- Do not overwrite existing CURRENT_STATE or NORTHSTAR without user confirmation.
+- Do not overwrite existing CURRENT_STATE, NORTHSTAR, or CONSTITUTION without user confirmation.
 
 ## Steps
 
@@ -30,7 +30,7 @@ Run **only when explicitly requested** after applying the brownfield overlay to 
 2. **Draft CURRENT_STATE.md**
    - Fill Current architecture, Known mismatches, Fragile areas, Characterization tests that must keep passing, Unsafe assumptions. Use [references/brownfield-rubric.md](references/brownfield-rubric.md).
 
-3. **Propose deltas for NORTHSTAR and PRD**
+3. **Propose deltas for NORTHSTAR, CONSTITUTION, and PRD**
    - Do not overwrite. Propose additions or changes (e.g. "Add to Non-goals: …") and ask for confirmation before applying.
 
 4. **Create first brownfield spec bundle**
@@ -46,7 +46,7 @@ Run **only when explicitly requested** after applying the brownfield overlay to 
 ## Stop conditions
 
 - Stop if repo has no clear structure or no Git.
-- Stop and ask before overwriting any existing CURRENT_STATE.md, NORTHSTAR.md, or PRD.md.
+- Stop and ask before overwriting any existing CURRENT_STATE.md, NORTHSTAR.md, CONSTITUTION.md, or PRD.md.
 
 ## Output
 

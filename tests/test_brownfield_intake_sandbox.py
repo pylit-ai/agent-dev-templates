@@ -25,7 +25,7 @@ except ImportError:
 SANDBOX = REPO_ROOT / "sandbox" / "brownfield-intake-test"
 SKILL_MD = REPO_ROOT / ".agents" / "skills" / "repo-os-brownfield-intake" / "SKILL.md"
 
-PROTECTED_DOCS = ("CURRENT_STATE.md", "NORTHSTAR.md", "PRD.md")
+PROTECTED_DOCS = ("CURRENT_STATE.md", "NORTHSTAR.md", "CONSTITUTION.md", "PRD.md")
 
 
 def test_sandbox_has_existing_docs():
@@ -54,9 +54,8 @@ def test_skill_requires_stop_before_overwrite():
     assert "Stop and ask before overwriting" in text, (
         "Skill must require stopping before overwriting existing docs."
     )
-    assert "CURRENT_STATE.md" in text and "NORTHSTAR.md" in text and "PRD.md" in text, (
-        "Skill must name the protected doc files."
-    )
+    for name in ("CURRENT_STATE.md", "NORTHSTAR.md", "CONSTITUTION.md", "PRD.md"):
+        assert name in text, f"Skill must name protected doc: {name}."
     assert "Do not overwrite" in text or "do not overwrite" in text, (
         "Skill must explicitly say do not overwrite (without confirmation)."
     )
