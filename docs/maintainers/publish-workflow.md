@@ -13,6 +13,19 @@ This catalog holds the source of truth. Distribution is **one repo per consumabl
    - `agentic-dev-greenfield` — contents of `templates/greenfield-dev-os/` (optional: GitHub template repo)
    - `agentic-dev-brownfield-overlay` — contents of `templates/brownfield-dev-overlay/`
 
+## Makefile (tests, version, release)
+
+From the repo root, `make help` lists targets. Useful ones:
+
+- **`make test`** — run pytest
+- **`make verify`** — run `scripts/check-governance` and template copy checks (greenfield + brownfield)
+- **`make version`** — show current version
+- **`make bump-patch`** / **`bump-minor`** / **`bump-major`** — bump version in `pyproject.toml` (via `uv version --bump`)
+- **`make tag`** — create git tag `v<VERSION>` from current version
+- **`make release-patch`** — run tests + verify, bump patch, commit, tag, push. Pushing the tag **triggers the PyPI workflow** automatically (no separate “create Release” step). If `gh` is installed, the Makefile also runs `gh release create v<VERSION>` so the GitHub Release stays in sync with the tag.
+
+Release targets require a clean working tree. One command: tag and PyPI publish stay in sync because the workflow runs on `push: tags: ['v*']`.
+
 ## Publish steps
 
 1. Copy template payload into the distribution repo:

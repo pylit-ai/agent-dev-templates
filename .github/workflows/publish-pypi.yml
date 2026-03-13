@@ -1,4 +1,5 @@
-# Publish agentic-devkit to PyPI on release.
+# Publish agentic-devkit to PyPI. Runs when you push a version tag (e.g. v0.1.2)
+# or when a GitHub Release is published, or manually via workflow_dispatch.
 # Uses Trusted Publishing (OIDC): no token in repo. Configure the trusted publisher
 # on PyPI with Workflow name: publish-pypi.yml, Environment name: pypi (optional).
 # See: https://docs.pypi.org/trusted-publishers/
@@ -6,6 +7,9 @@
 name: Publish to PyPI
 
 on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
   release:
     types: [published]
   workflow_dispatch:
