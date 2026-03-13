@@ -89,7 +89,7 @@ Cursor: `.agents/skills/repo-os-brownfield-intake/`. Claude: `.claude/commands/i
 <summary><strong>Key artifacts (NORTHSTAR, AGENTS, PRD, …)</strong></summary>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/pylit-ai/agentic-devkit/main/assets/Context_Governane_Execution.png" alt="Context, governance, execution" width="640">
+  <img src="https://raw.githubusercontent.com/pylit-ai/agentic-devkit/main/assets/Context_Governance_Execution.png" alt="Context, governance, execution" width="640">
 </p>
 
 ***Strategic context** (why & what): PRD.md, NORTHSTAR.md → **Governance engine** (boundaries): CONSTITUTION.md, verify_governance.sh → **Execution engine** (action state): context-registry.yaml, specs/plan.md, specs/tasks.md.*
