@@ -5,6 +5,12 @@
 [![PyPI](https://img.shields.io/pypi/v/agentic-devkit.svg)](https://pypi.org/project/agentic-devkit/)  
 [**PyPI**](https://pypi.org/project/agentic-devkit/) · [**GitHub**](https://github.com/pylit-ai/agentic-devkit)
 
+<p align="center">
+  <img src="assets/Pyramid.png" alt="Doc hierarchy pyramid" width="560">
+</p>
+
+*The doc hierarchy: **NORTHSTAR.md** (the why — vision and long-term goals) → **CONSTITUTION.md** (rules of engagement — ethical and technical boundaries) → **PRD.md** (the what — features and requirements) → **docs/governance/DOCS_SYSTEM.md** (the format — documentation structure) → **context-registry.yaml** (ground truth — RAG mapping to prevent information overload).*
+
 ---
 
 ## Quick start
@@ -33,8 +39,20 @@ Requires [uv](https://docs.astral.sh/uv/) (or `pip install agentic-devkit`).
 
 Then **point your agent at AGENTS.md** in the new repo. For greenfield, give a one-sentence product brief in the same chat (e.g. *“CLI for dev teams so they can run templates with less setup”*); the agent fills placeholders or asks if it needs more. For brownfield, ask explicitly for “brownfield intake” when you want CURRENT_STATE and the first spec.
 
+<p align="center">
+  <img src="assets/Artifact_generation.png" alt="Artifact generation cycle" width="640">
+</p>
+
+*Cycle: **(1) Template initialization** — Copier populates the directory and AGENTS.md. **(2) Skill execution** — invoke a skill from `.agents/skills/`. **(3) Governance verification** — check scripts (e.g. ci.yml) verify output against CONSTITUTION.md.*
+
 <details>
 <summary><strong>Greenfield — objectives, prompt, what gets filled</strong></summary>
+
+<p align="center">
+  <img src="assets/Greenfield.png" alt="Greenfield path" width="640">
+</p>
+
+***Path A: Greenfield** — Bootstrap → Scaffolding (Makefile, pyproject.toml, .copier-answers) → Baseline context (docs/architecture, docs/mcp) → ready for agent execution.*
 
 **Objectives:** The agent only has the project name from `init` (or “my-product”). You define the rest by saying it in the same message as the bootstrap prompt, or the skill tells the agent to ask for product name, primary user, and core outcome.
 
@@ -51,6 +69,12 @@ Run the repo-os-greenfield-bootstrap skill: read AGENTS.md and .agents/skills/re
 <details>
 <summary><strong>Brownfield — intake prompt</strong></summary>
 
+<p align="center">
+  <img src="assets/Brownfield.png" alt="Brownfield intake" width="640">
+</p>
+
+***Path B: Brownfield intake** — Legacy repo → `repo_census.py` (intake engine) → Machine-readable map (e.g. opencode.json) + Context API (context-registry.yaml).*
+
 Run only when you explicitly ask (e.g. “run brownfield intake” or “draft CURRENT_STATE”).
 
 ```
@@ -63,6 +87,12 @@ Cursor: `.agents/skills/repo-os-brownfield-intake/`. Claude: `.claude/commands/i
 
 <details>
 <summary><strong>Key artifacts (NORTHSTAR, AGENTS, PRD, …)</strong></summary>
+
+<p align="center">
+  <img src="assets/Context_Governane_Execution.png" alt="Context, governance, execution" width="640">
+</p>
+
+***Strategic context** (why & what): PRD.md, NORTHSTAR.md → **Governance engine** (boundaries): CONSTITUTION.md, verify_governance.sh → **Execution engine** (action state): context-registry.yaml, specs/plan.md, specs/tasks.md.*
 
 | Artifact | Purpose |
 |----------|---------|
