@@ -52,11 +52,14 @@ The repo includes **`.github/workflows/publish-pypi.yml`**, which publishes to P
 
 | PyPI field | Value |
 |------------|--------|
+| **Owner** | `pylit-ai` |
+| **Repository name** | `agentic-devkit` |
 | **Workflow name** | `publish-pypi.yml` |
 | **Environment name** | `pypi` (optional but recommended) |
 
+- **Important:** For an **existing** project (e.g. agentic-devkit already on PyPI), add the publisher from the **project’s** page: [pypi.org/manage/projects/](https://pypi.org/manage/projects/) → **Manage** on the project → **Publishing** in the sidebar → **Add** under GitHub Actions. Do **not** use “Add a new pending publisher” (that flow is only for projects that don’t exist yet). If you see `invalid-pending-publisher: valid token, but project already exists`, the publisher was added as pending; add it instead from the project’s Publishing page.
 - **Workflow name** = filename of the workflow under `.github/workflows/`. Must match exactly.
-- **Environment name** = GitHub Actions environment used by the publish job. Use `pypi` so you can add an environment in **Settings → Environments** with protection rules (e.g. required reviewers, or limit who can deploy). Create the `pypi` environment in the repo if you use this.
+- **Environment name** = GitHub Actions environment used by the publish job. Use `pypi` so you can add an environment in **Settings → Environments** with protection rules (e.g. required reviewers). Create the `pypi` environment in the repo if you use this.
 
 After adding the trusted publisher on PyPI, create a **GitHub release** (or run the workflow manually); the job will build and run `uv publish` using OIDC.
 

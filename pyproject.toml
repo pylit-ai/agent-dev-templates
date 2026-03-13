@@ -19,8 +19,8 @@ dev = ["pytest>=8.0"]
 agentic-dev = "agentic_devkit.cli:main"
 agentic-devkit = "agentic_devkit.cli:main"
 
-[tool.uv]
-dev-dependencies = []
+[dependency-groups]
+dev = ["pytest>=8.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
