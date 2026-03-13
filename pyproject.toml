@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = []
+dev = ["pytest>=8.0"]
 
 [project.scripts]
 agentic-dev = "agentic_dev.cli:main"
