@@ -4,7 +4,7 @@ This catalog holds the source of truth. Distribution is **one repo per consumabl
 
 ## Recommended setup
 
-1. **This repo** (`agent-dev-templates`) = catalog with:
+1. **This repo** (`agentic-devkit`) = catalog with:
    - `templates/greenfield-dev-os/`
    - `templates/brownfield-dev-overlay/`
    - shared docs, scripts, and notepads
