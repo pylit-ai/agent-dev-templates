@@ -6,7 +6,8 @@ This catalog holds the source of truth. Distribution is **one repo per consumabl
 
 1. **This repo** (`agentic-devkit`) = catalog with:
    - `templates/greenfield-dev-os/`
-   - `templates/brownfield-dev-overlay/`
+   - `templates/brownfield-dev-overlay/` (source of truth for the overlay)
+   - `src/agentic_devkit/templates/brownfield-dev-overlay/` (bundled copy used by the CLI when no env override is set; keep in sync with `make sync-overlay`)
    - shared docs, scripts, and notepads
 
 2. **Distribution repos** (separate repos, e.g. under your org):
@@ -19,6 +20,7 @@ From the repo root, `make help` lists targets. Useful ones:
 
 - **`make test`** — run pytest
 - **`make verify`** — run `scripts/check-governance` and template copy checks (greenfield + brownfield)
+- **`make sync-overlay`** — copy `templates/brownfield-dev-overlay/` into `src/agentic_devkit/templates/brownfield-dev-overlay/` so the bundled overlay matches the catalog (run before release if you changed the overlay)
 - **`make version`** — show current version
 - **`make bump-patch`** / **`bump-minor`** / **`bump-major`** — bump version in `pyproject.toml` (via `uv version --bump`)
 - **`make tag`** — create git tag `v<VERSION>` from current version

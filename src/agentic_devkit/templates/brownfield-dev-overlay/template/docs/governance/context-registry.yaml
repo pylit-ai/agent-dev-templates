@@ -1,0 +1,82 @@
+version: 1
+canonical_entrypoint: AGENTS.md
+
+owners:
+  NORTHSTAR.md: founder
+  CONSTITUTION.md: platform
+  AGENTS.md: devex
+  PRD.md: product
+  CURRENT_STATE.md: platform
+  MIGRATION_GUARDRAILS.md: platform
+  docs/governance/DOCS_SYSTEM.md: platform
+  docs/governance/context-registry.yaml: platform
+  specs/registry.yaml: platform
+
+review_cadence_days:
+  adapters: 30
+  governance: 90
+  specs_registry: 30
+  archive: 90
+  current_state: 90
+
+documents:
+  - path: CURRENT_STATE.md
+    role: legacy_reality
+    canonical: true
+    update_trigger:
+      - legacy_architecture_change
+      - fragile_area_discovery
+    consumers:
+      - coding_agents
+      - planning_agents
+
+  - path: MIGRATION_GUARDRAILS.md
+    role: migration_rules
+    canonical: true
+    update_trigger:
+      - migration_policy_change
+    consumers:
+      - coding_agents
+
+adapters:
+  - path: CLAUDE.md
+    tool: claude_code
+    canonical: false
+    must_not_define_policy: true
+    points_to:
+      - AGENTS.md
+      - docs/governance/DOCS_SYSTEM.md
+
+  - path: .github/copilot-instructions.md
+    tool: github_copilot
+    canonical: false
+    must_not_define_policy: true
+    points_to:
+      - AGENTS.md
+      - docs/governance/DOCS_SYSTEM.md
+
+  - path: .cursor/rules/00-router.mdc
+    tool: cursor
+    canonical: false
+    must_not_define_policy: true
+    points_to:
+      - AGENTS.md
+      - docs/governance/DOCS_SYSTEM.md
+
+  - path: opencode.json
+    tool: opencode
+    canonical: false
+    must_not_define_policy: true
+    points_to:
+      - AGENTS.md
+      - docs/governance/DOCS_SYSTEM.md
+
+checks:
+  - id: no_duplicate_policy
+    description: Canonical policy text must not be duplicated in adapter files.
+  - id: no_active_spec_overlap
+    description: Active specs may not overlap touched surfaces without explicit dependency or conflict.
+  - id: no_stale_active_specs
+    description: Specs marked implemented must be archived within review cadence.
+  - id: thin_adapters
+    description: Adapter files should remain short and routing-focused.

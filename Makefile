@@ -1,12 +1,13 @@
 # Agentic-devkit: common dev and release tasks. Uses uv for Python/version.
 # Usage: make [target]. Default: make help.
 
-.PHONY: help sync test verify version bump-patch bump-minor bump-major tag release-patch release-minor release-major clean
+.PHONY: help sync sync-overlay test verify version bump-patch bump-minor bump-major tag release-patch release-minor release-major clean
 
 # Default target
 help:
 	@echo "Targets:"
 	@echo "  make sync          - uv sync (install deps)"
+	@echo "  make sync-overlay  - copy templates/brownfield-dev-overlay into src/agentic_devkit/templates (bundled overlay)"
 	@echo "  make test          - run pytest"
 	@echo "  make verify        - governance + template copy checks (CI-style)"
 	@echo "  make version       - show current version from pyproject.toml"
@@ -21,6 +22,11 @@ help:
 
 sync:
 	uv sync
+
+sync-overlay:
+	@rm -rf src/agentic_devkit/templates/brownfield-dev-overlay
+	@cp -R templates/brownfield-dev-overlay src/agentic_devkit/templates/
+	@echo "Synced templates/brownfield-dev-overlay -> src/agentic_devkit/templates/brownfield-dev-overlay"
 
 test:
 	uv run pytest tests/ -v

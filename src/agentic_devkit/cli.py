@@ -11,12 +11,23 @@ DEFAULT_GREENFIELD = "gh:your-org/agentic-dev-greenfield"
 DEFAULT_BROWNFIELD = "gh:your-org/agentic-dev-brownfield-overlay"
 
 
+def _bundled_brownfield_path() -> Path:
+    """Path to the brownfield overlay template bundled with the package."""
+    return Path(__file__).resolve().parent / "templates" / "brownfield-dev-overlay"
+
+
 def _greenfield_source() -> str:
     return os.environ.get("AGENTIC_DEV_GREENFIELD_SOURCE", DEFAULT_GREENFIELD)
 
 
 def _brownfield_source() -> str:
-    return os.environ.get("AGENTIC_DEV_BROWNFIELD_SOURCE", DEFAULT_BROWNFIELD)
+    env_source = os.environ.get("AGENTIC_DEV_BROWNFIELD_SOURCE")
+    if env_source:
+        return env_source
+    bundled = _bundled_brownfield_path()
+    if bundled.is_dir():
+        return str(bundled)
+    return DEFAULT_BROWNFIELD
 
 
 def _run_copier(source: str, dest: Path) -> int:

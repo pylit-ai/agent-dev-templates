@@ -1,0 +1,15 @@
+# Copier config for agentic brownfield overlay
+# Apply to an existing repo to add docs governance and spec discipline.
+# See https://copier.readthedocs.io/ (March 2025)
+
+_subdirectory: template
+_answers_file: .copier-answers.agentic-brownfield.yml
+
+# Load preflight census if present (run repo_census.py --output .agentic-bootstrap.yml first)
+_external_data:
+  census: .agentic-bootstrap.yml
+
+_message_after_copy: |
+  Next: run **repo-os-brownfield-intake** (explicit only) to draft CURRENT_STATE.md and create the first migration spec. Fill CURRENT_STATE from the generated draft and confirm before large edits.
+_message_after_update: |
+  Brownfield overlay updated. Re-run **repo-os-brownfield-intake** only if you need to regenerate CURRENT_STATE or the first spec.
