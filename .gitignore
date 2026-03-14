@@ -8,6 +8,7 @@ __pycache__/
 .copier-answers.yml
 .copier-answers.agentic-greenfield.yml
 .copier-answers.agentic-brownfield.yml
+.agentic-bootstrap.yml
 /tmp/
 *.egg-info/
 dist/
