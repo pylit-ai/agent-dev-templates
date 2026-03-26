@@ -1,10 +1,10 @@
 """agentic-dev CLI: init, overlay, intake."""
+import importlib.metadata
 import os
 import subprocess
 import sys
 from pathlib import Path
 
-from . import __version__
 from .census import write_census_yaml
 
 DEFAULT_GREENFIELD = "gh:your-org/agentic-dev-greenfield"
@@ -48,6 +48,13 @@ def _brownfield_source() -> str:
 def _run_copier(source: str, dest: Path) -> int:
     dest_str = str(dest.resolve())
     return subprocess.call([sys.executable, "-m", "copier", "copy", source, dest_str])
+
+
+def _package_version() -> str:
+    try:
+        return importlib.metadata.version("agentic-devkit")
+    except importlib.metadata.PackageNotFoundError:
+        return "0+unknown"
 
 
 def cmd_init(dest: str) -> int:
@@ -125,7 +132,7 @@ def main() -> int:
         prog="agentic-dev",
         description="Init, overlay, or intake for the agentic documentation OS templates.",
     )
-    ap.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
+    ap.add_argument("--version", action="version", version=f"%(prog)s {_package_version()}")
     sub = ap.add_subparsers(dest="command", required=True)
 
     p_init = sub.add_parser("init", help="Create a new repo from greenfield template")

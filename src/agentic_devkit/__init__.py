@@ -1,3 +1,8 @@
 """Agentic dev CLI — init, overlay, and intake for agentic documentation OS templates."""
 
-__version__ = "0.1.7"
+from importlib.metadata import PackageNotFoundError, version
+
+try:
+    __version__ = version("agentic-devkit")
+except PackageNotFoundError:
+    __version__ = "0+unknown"
