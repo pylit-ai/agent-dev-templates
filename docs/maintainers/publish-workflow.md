@@ -7,6 +7,7 @@ This catalog holds the source of truth. Distribution is **one repo per consumabl
 1. **This repo** (`agentic-devkit`) = catalog with:
    - `templates/greenfield-dev-os/`
    - `templates/brownfield-dev-overlay/` (source of truth for the overlay)
+   - `src/agentic_devkit/templates/greenfield-dev-os/` (bundled copy used by the CLI when no env override is set; keep in sync with `templates/greenfield-dev-os/`)
    - `src/agentic_devkit/templates/brownfield-dev-overlay/` (bundled copy used by the CLI when no env override is set; keep in sync with `make sync-overlay`)
    - shared docs, scripts, and notepads
 

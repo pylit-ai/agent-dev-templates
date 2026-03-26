@@ -11,13 +11,28 @@ DEFAULT_GREENFIELD = "gh:your-org/agentic-dev-greenfield"
 DEFAULT_BROWNFIELD = "gh:your-org/agentic-dev-brownfield-overlay"
 
 
+def _bundled_greenfield_path() -> Path:
+    """Path to the greenfield template bundled with the package."""
+    return Path(__file__).resolve().parent / "templates" / "greenfield-dev-os"
+
+
 def _bundled_brownfield_path() -> Path:
     """Path to the brownfield overlay template bundled with the package."""
     return Path(__file__).resolve().parent / "templates" / "brownfield-dev-overlay"
 
 
 def _greenfield_source() -> str:
-    return os.environ.get("AGENTIC_DEV_GREENFIELD_SOURCE", DEFAULT_GREENFIELD)
+    env_source = os.environ.get("AGENTIC_DEV_GREENFIELD_SOURCE")
+    if env_source:
+        return env_source
+    bundled = _bundled_greenfield_path()
+    if bundled.is_dir():
+        return str(bundled)
+    return DEFAULT_GREENFIELD
+
+
+def _is_placeholder_source(source: str) -> bool:
+    return source.strip().startswith("gh:your-org/")
 
 
 def _brownfield_source() -> str:
@@ -38,6 +53,33 @@ def _run_copier(source: str, dest: Path) -> int:
 def cmd_init(dest: str) -> int:
     """Create a new greenfield repo from template."""
     source = _greenfield_source()
+    if _is_placeholder_source(source):
+        print(
+            "Error: no usable greenfield template source found.",
+            file=sys.stderr,
+        )
+        print(
+            "The packaged greenfield template was not found and the fallback "
+            f"default is a placeholder ({DEFAULT_GREENFIELD}).",
+            file=sys.stderr,
+        )
+        print(
+            "Set AGENTIC_DEV_GREENFIELD_SOURCE to a real template source, for example:",
+            file=sys.stderr,
+        )
+        print(
+            "  AGENTIC_DEV_GREENFIELD_SOURCE=gh:<your-org>/<your-template-repo> uvx agentic-devkit init <dest>",
+            file=sys.stderr,
+        )
+        print(
+            "or a local template path:",
+            file=sys.stderr,
+        )
+        print(
+            "  AGENTIC_DEV_GREENFIELD_SOURCE=./templates/greenfield-dev-os uvx agentic-devkit init <dest>",
+            file=sys.stderr,
+        )
+        return 2
     dest_path = Path(dest).resolve()
     print(f"Running: copier copy {source} {dest_path}")
     return _run_copier(source, dest_path)

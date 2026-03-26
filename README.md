@@ -28,7 +28,7 @@ uvx agentic-devkit overlay . --intake
 
 Requires [uv](https://docs.astral.sh/uv/) (or `pip install agentic-devkit`).
 
-The **overlay** command uses the brownfield template bundled with the package by default, so no GitHub repo or config is required. To use a different template (e.g. your own published repo), set `AGENTIC_DEV_BROWNFIELD_SOURCE` to a `gh:org/repo` URL or a local path.
+The **init** and **overlay** commands use bundled templates by default, so no GitHub repo or extra config is required. To use your own template source instead, set `AGENTIC_DEV_GREENFIELD_SOURCE` or `AGENTIC_DEV_BROWNFIELD_SOURCE` to a `gh:org/repo` URL or a local path.
 
 ---
 

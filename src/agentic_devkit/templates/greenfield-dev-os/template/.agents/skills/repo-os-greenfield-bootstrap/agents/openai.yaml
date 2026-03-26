@@ -1,0 +1,10 @@
+# Codex/OpenCode skill metadata
+# See https://developers.openai.com/codex/skills (March 2025)
+
+interface:
+  display_name: "Greenfield repo bootstrap"
+  short_description: "Fill NORTHSTAR/PRD/spec placeholders and align AGENTS.md commands after copier copy"
+
+policy:
+  # Safe to suggest when user just created a repo from template
+  allow_implicit_invocation: true
