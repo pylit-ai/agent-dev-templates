@@ -3,6 +3,7 @@
 # - YAML load of context-registry.yaml and specs/registry.yaml
 # - Adapter files <= 40 lines (DOCS_SYSTEM anti-clutter rule)
 # - Every active spec in registry has specs/<id>/ with spec.md, plan.md, tasks.md
+# - No BCP14-style normative keywords in non-canonical adapter surfaces
 # Run from repo root.
 
 set -e
@@ -56,6 +57,27 @@ for s in (d.get("specs") or []):
 ' "$reg" 2>/dev/null)
 }
 
+check_noncanonical_normative() {
+  local dir="$1"
+  local pattern='\b(MUST|MUST NOT|REQUIRED|SHALL|SHALL NOT|SHOULD|SHOULD NOT|RECOMMENDED|NOT RECOMMENDED|MAY|OPTIONAL)\b'
+  local adapter
+  for adapter in CLAUDE.md .github/copilot-instructions.md .cursor/rules/00-router.mdc opencode.json; do
+    if [[ -f "$dir/$adapter" ]]; then
+      if rg -n "$pattern" "$dir/$adapter" >/dev/null 2>&1; then
+        echo "FAIL: normative BCP14 keyword found in non-canonical adapter $dir/$adapter"
+        ((ERRORS++)) || true
+      fi
+    fi
+  done
+
+  if [[ -d "$dir/.meta/spec-adapters" ]]; then
+    if rg -n "$pattern" "$dir/.meta/spec-adapters" >/dev/null 2>&1; then
+      echo "FAIL: normative BCP14 keyword found in framework adapter payloads under $dir/.meta/spec-adapters"
+      ((ERRORS++)) || true
+    fi
+  fi
+}
+
 cd "$CATALOG_ROOT"
 
 echo "Checking greenfield template..."
@@ -65,6 +87,7 @@ check_yaml "$GF/docs/governance/context-registry.yaml"
 check_yaml "$GF/specs/registry.yaml"
 check_adapter_lines "$GF"
 check_active_specs_exist "$GF"
+check_noncanonical_normative "$GF"
 
 echo "Checking brownfield template..."
 BF="$CATALOG_ROOT/templates/brownfield-dev-overlay/template"
@@ -74,6 +97,7 @@ check_yaml "$BF/specs/registry.yaml"
 check_adapter_lines "$BF"
 # Brownfield registry may have empty specs list; still check structure
 check_active_specs_exist "$BF"
+check_noncanonical_normative "$BF"
 
 if [[ $ERRORS -gt 0 ]]; then
   echo "Total failures: $ERRORS"

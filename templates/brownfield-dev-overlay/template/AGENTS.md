@@ -39,6 +39,12 @@ Use it to find the correct source of truth.
 - `docs/governance/DOCS_SYSTEM.md` — documentation taxonomy and precedence
 - `specs/registry.yaml` — active / superseded / archived change registry
 
+## Canonical vs adapters
+- Canonical implementation requirements live only in `specs/<id>/{spec.md,plan.md,tasks.md}` and lifecycle metadata in `specs/registry.yaml`.
+- Durable architectural rationale belongs in `docs/adr/`; durable technical references belong in canonical docs under `docs/`.
+- Framework-specific artifacts are optional adapters and must only translate canonical sources.
+- Preferred location for framework adapter payloads is `.meta/spec-adapters/<framework>/...`.
+
 ## Skills (on-demand, explicit only)
 - **repo-os-brownfield-intake** — Run only when explicitly requested: draft CURRENT_STATE, create first migration spec, handoff summary. Claude: `.claude/commands/intake-brownfield`. Do not invoke implicitly.
 

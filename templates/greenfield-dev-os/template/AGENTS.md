@@ -39,6 +39,12 @@ Use it to find the correct source of truth.
 - `docs/mcp/servers.md` — MCP servers, tool contracts, and trust boundaries
 - `specs/registry.yaml` — active / superseded / archived change registry
 
+## Canonical vs adapters
+- Canonical implementation requirements live only in `specs/<id>/{spec.md,plan.md,tasks.md}` and lifecycle metadata in `specs/registry.yaml`.
+- Durable architectural rationale belongs in `docs/adr/`; durable technical references belong in canonical docs under `docs/`.
+- Framework-specific artifacts are optional adapters and must only translate canonical sources.
+- Preferred location for framework adapter payloads is `.meta/spec-adapters/<framework>/...`.
+
 ## Skills (on-demand)
 - **repo-os-greenfield-bootstrap** — After `copier copy`, run this to fill NORTHSTAR/PRD/specs placeholders and align Commands. Claude: use `.claude/commands/bootstrap-repo` or repo-bootstrapper subagent.
 

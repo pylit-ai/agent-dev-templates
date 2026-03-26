@@ -22,6 +22,8 @@ All other files may summarize or link to it, but may not become competing source
   - owns the technical approach, rollout, rollback, and verification plan
 - `specs/<id>/tasks.md`
   - owns the ordered execution graph for the change
+- `specs/registry.yaml`
+  - owns spec lifecycle metadata and overlap declarations
 - `docs/adr/*.md`
   - own durable architectural decisions after they stabilize
 - `docs/mcp/servers.md`
@@ -45,6 +47,16 @@ All other files may summarize or link to it, but may not become competing source
 - Do not copy repo-wide rules from `CONSTITUTION.md` into tool adapters.
 - Do not place enduring architecture rationale in specs; promote it to an ADR after acceptance.
 - Tool-specific adapters must not introduce new policy.
+
+## Canonical spec surface
+- Canonical implementation requirements live only in `specs/<id>/{spec.md,plan.md,tasks.md}`.
+- Spec lifecycle and dependency state live only in `specs/registry.yaml`.
+- Framework adapters must not define requirements, acceptance criteria, or policy.
+- Preferred framework adapter path is `.meta/spec-adapters/<framework>/...`.
+
+## Normative language
+- Canonical requirement statements SHOULD use BCP 14 terms from RFC 2119 and RFC 8174.
+- Interpret `MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, and `MAY` with RFC 8174 uppercase semantics.
 
 ## Read order by task type
 

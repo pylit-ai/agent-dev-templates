@@ -1,0 +1,8 @@
+# Canonical governance and spec surfaces
+/templates/**/template/AGENTS.md @pylit-ai/platform
+/templates/**/template/CONSTITUTION.md @pylit-ai/platform
+/templates/**/template/docs/governance/** @pylit-ai/platform
+/templates/**/template/docs/adr/** @pylit-ai/platform
+/templates/**/template/specs/** @pylit-ai/platform
+/scripts/check-governance @pylit-ai/platform
+/src/agentic_devkit/templates/** @pylit-ai/platform

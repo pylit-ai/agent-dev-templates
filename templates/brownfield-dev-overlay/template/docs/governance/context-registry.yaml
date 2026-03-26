@@ -80,3 +80,5 @@ checks:
     description: Specs marked implemented must be archived within review cadence.
   - id: thin_adapters
     description: Adapter files should remain short and routing-focused.
+  - id: no_normative_in_adapters
+    description: BCP14 requirement keywords must not appear in adapter surfaces.
