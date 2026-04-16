@@ -10,6 +10,12 @@ Implement <change> using <approach> while preserving constraints in `CONSTITUTIO
 ## Characterization tests
 - <suite or test> — must remain passing
 
+## Evidence sources
+- implementation: <legacy files, seams, or new code paths that will cite requirement IDs>
+- verifier: <characterization tests, regression tests, checks, or manual records that will cite requirement IDs>
+- runtime signals: <logs, metrics, traces, or operational checks used as evidence>
+- generated artifacts: `generated/traceability/graph.json`, `generated/traceability/verification-ledger.json`, and reports
+
 ## Architecture impact
 - touched components: <list>
 - unchanged components: <list>

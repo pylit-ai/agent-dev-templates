@@ -78,6 +78,26 @@ check_noncanonical_normative() {
   fi
 }
 
+check_traceability_primitives() {
+  local dir="$1"
+  if ! rg -q 'REQ-' "$dir/specs" --glob 'spec.md'; then
+    echo "FAIL: $dir/specs spec templates do not include atomic requirement IDs"
+    ((ERRORS++)) || true
+  fi
+  if ! rg -q '## Evidence sources' "$dir/specs" --glob 'plan.md'; then
+    echo "FAIL: $dir/specs plan templates do not include evidence sources"
+    ((ERRORS++)) || true
+  fi
+  if ! rg -q '\[REQ-' "$dir/specs" --glob 'tasks.md'; then
+    echo "FAIL: $dir/specs task templates do not reference requirement IDs"
+    ((ERRORS++)) || true
+  fi
+  if ! rg -q 'generated/traceability/' "$dir/docs/governance/DOCS_SYSTEM.md"; then
+    echo "FAIL: $dir/docs/governance/DOCS_SYSTEM.md does not define traceability generated artifacts"
+    ((ERRORS++)) || true
+  fi
+}
+
 cd "$CATALOG_ROOT"
 
 echo "Checking greenfield template..."
@@ -88,6 +108,7 @@ check_yaml "$GF/specs/registry.yaml"
 check_adapter_lines "$GF"
 check_active_specs_exist "$GF"
 check_noncanonical_normative "$GF"
+check_traceability_primitives "$GF"
 
 echo "Checking brownfield template..."
 BF="$CATALOG_ROOT/templates/brownfield-dev-overlay/template"
@@ -98,6 +119,7 @@ check_adapter_lines "$BF"
 # Brownfield registry may have empty specs list; still check structure
 check_active_specs_exist "$BF"
 check_noncanonical_normative "$BF"
+check_traceability_primitives "$BF"
 
 if [[ $ERRORS -gt 0 ]]; then
   echo "Total failures: $ERRORS"

@@ -24,6 +24,8 @@ All other files may summarize or link to it, but may not become competing source
   - owns the ordered execution graph for the change
 - `specs/registry.yaml`
   - owns spec lifecycle metadata and overlap declarations
+- `generated/traceability/*`
+  - owns non-canonical generated artifacts derived from specs, tasks, code references, and verifier evidence
 - `docs/adr/*.md`
   - own durable architectural decisions after they stabilize
 - `docs/mcp/servers.md`
@@ -47,12 +49,15 @@ All other files may summarize or link to it, but may not become competing source
 - Do not copy repo-wide rules from `CONSTITUTION.md` into tool adapters.
 - Do not place enduring architecture rationale in specs; promote it to an ADR after acceptance.
 - Tool-specific adapters must not introduce new policy.
+- Treat `generated/traceability/` as non-canonical generated artifacts; regenerate them from canonical docs and evidence.
 
 ## Canonical spec surface
 - Canonical implementation requirements live only in `specs/<id>/{spec.md,plan.md,tasks.md}`.
 - Spec lifecycle and dependency state live only in `specs/registry.yaml`.
 - Framework adapters must not define requirements, acceptance criteria, or policy.
 - Preferred framework adapter path is `.meta/spec-adapters/<framework>/...`.
+- Requirement IDs are the primary completion keys for active spec obligations.
+- Generated traceability reports may summarize requirement status but may not replace canonical requirement text.
 
 ## Normative language
 - Canonical requirement statements SHOULD use BCP 14 terms from RFC 2119 and RFC 8174.

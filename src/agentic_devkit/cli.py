@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from .census import write_census_yaml
+from .traceability import compile_traceability, diagnostics, load_requirement
 
 DEFAULT_GREENFIELD = "gh:your-org/agentic-dev-greenfield"
 DEFAULT_BROWNFIELD = "gh:your-org/agentic-dev-brownfield-overlay"
@@ -126,6 +127,70 @@ def cmd_intake(path: str) -> int:
     return 0
 
 
+def cmd_trace_compile(repo: str | Path = ".") -> int:
+    result = compile_traceability(repo)
+    print(f"Wrote {result.graph_path}")
+    print(f"Wrote {result.index_path}")
+    return 0
+
+
+def cmd_trace_report(repo: str | Path = ".") -> int:
+    result = compile_traceability(repo)
+    print(f"Wrote {result.coverage_path}")
+    print(f"Wrote {result.ledger_path}")
+    print(f"Wrote {result.drift_report_path}")
+    print(f"Wrote {result.forgotten_report_path}")
+    return 0
+
+
+def cmd_trace_inspect(requirement_id: str, repo: str | Path = ".") -> int:
+    req = load_requirement(requirement_id, repo)
+    if req is None:
+        print(
+            f"Error: requirement {requirement_id} not found. Run `agentic-devkit trace compile` first.",
+            file=sys.stderr,
+        )
+        return 1
+    print(f"{req['id']} — {req['status']}")
+    print(req["text"])
+    print(f"source: {req['source']}:{req['line']}")
+    print("tasks:")
+    for task in req["tasks"] or []:
+        state = "done" if task["done"] else "open"
+        print(f"  - {task['id']} ({state}) {task['source']}")
+    print("implementation evidence:")
+    for path in req["code_entities"] or []:
+        print(f"  - {path}")
+    print("verifier evidence:")
+    for path in req["verifiers"] or []:
+        print(f"  - {path}")
+    if req["missing"]:
+        print("missing:")
+        for item in req["missing"]:
+            print(f"  - {item}")
+    return 0
+
+
+def cmd_trace_doctor(repo: str | Path = ".") -> int:
+    messages = diagnostics(repo)
+    if not messages:
+        print("No traceability diagnostics found.")
+        return 0
+    for message in messages:
+        print(f"{message}. Suggested remediation: add the smallest code or verifier link that cites the requirement ID.")
+    return 1
+
+
+def cmd_trace_check(repo: str | Path = ".") -> int:
+    messages = diagnostics(repo)
+    if not messages:
+        print("Traceability checks passed.")
+        return 0
+    for message in messages:
+        print(f"FAIL: {message}", file=sys.stderr)
+    return 1
+
+
 def main() -> int:
     import argparse
     ap = argparse.ArgumentParser(
@@ -147,6 +212,30 @@ def main() -> int:
     p_intake = sub.add_parser("intake", help="Show brownfield intake next-step instructions")
     p_intake.add_argument("path", nargs="?", default=".", help="Repo path (default: .)")
     p_intake.set_defaults(func=lambda a: cmd_intake(a.path))
+
+    p_trace = sub.add_parser("trace", help="Compile and inspect requirement evidence")
+    trace_sub = p_trace.add_subparsers(dest="trace_command", required=True)
+
+    p_trace_compile = trace_sub.add_parser("compile", help="Build generated traceability graph and index")
+    p_trace_compile.add_argument("--repo", default=".", help="Repo path (default: .)")
+    p_trace_compile.set_defaults(func=lambda a: cmd_trace_compile(a.repo))
+
+    p_trace_check = trace_sub.add_parser("check", help="Fail when traceability evidence is missing")
+    p_trace_check.add_argument("--repo", default=".", help="Repo path (default: .)")
+    p_trace_check.set_defaults(func=lambda a: cmd_trace_check(a.repo))
+
+    p_trace_report = trace_sub.add_parser("report", help="Regenerate human-readable traceability reports")
+    p_trace_report.add_argument("--repo", default=".", help="Repo path (default: .)")
+    p_trace_report.set_defaults(func=lambda a: cmd_trace_report(a.repo))
+
+    p_trace_inspect = trace_sub.add_parser("inspect", help="Inspect a requirement by ID")
+    p_trace_inspect.add_argument("requirement_id", help="Requirement ID, for example REQ-login-001")
+    p_trace_inspect.add_argument("--repo", default=".", help="Repo path (default: .)")
+    p_trace_inspect.set_defaults(func=lambda a: cmd_trace_inspect(a.requirement_id, a.repo))
+
+    p_trace_doctor = trace_sub.add_parser("doctor", help="Explain missing traceability links")
+    p_trace_doctor.add_argument("--repo", default=".", help="Repo path (default: .)")
+    p_trace_doctor.set_defaults(func=lambda a: cmd_trace_doctor(a.repo))
 
     args = ap.parse_args()
     return args.func(args)

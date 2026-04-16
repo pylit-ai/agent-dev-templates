@@ -20,13 +20,19 @@ This change creates the minimum implementation needed to validate the product th
 - When <failure condition>, the system should <observable outcome>.
 
 ## Acceptance criteria
-- [ ] AC-1: <objective pass/fail criterion>
-- [ ] AC-2: <objective pass/fail criterion>
-- [ ] AC-3: <objective pass/fail criterion>
+- [ ] [REQ-001-bootstrap-001] <objective pass/fail criterion>
+- [ ] [REQ-001-bootstrap-002] <objective pass/fail criterion>
+- [ ] [REQ-001-bootstrap-003] <objective pass/fail criterion>
 
 ## Edge cases
-- <edge case>
-- <edge case>
+- [REQ-001-bootstrap-004] <edge case>
+- [REQ-001-bootstrap-005] <edge case>
+
+## Traceability
+- primary completion keys: requirement IDs above
+- implementation evidence: <files, modules, or generated entities expected to cite relevant requirement IDs>
+- verifier evidence: <tests, evals, runtime checks, or manual records expected to cite relevant requirement IDs>
+- generated reports: `generated/traceability/`
 
 ## Required verifiers
 - unit tests: <yes/no + scope>

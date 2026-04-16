@@ -23,6 +23,12 @@ Implement <change> using <approach> while preserving the constraints in `CONSTIT
 - metrics: <metrics>
 - traces: <critical spans or checkpoints>
 
+## Evidence sources
+- implementation: <paths or entities that will cite requirement IDs>
+- verifier: <tests, evals, checks, or manual records that will cite requirement IDs>
+- runtime signals: <logs, metrics, traces, or dashboards used as evidence>
+- generated artifacts: `generated/traceability/graph.json`, `generated/traceability/verification-ledger.json`, and reports
+
 ## Security / safety review
 - auth changes: <none / details>
 - secret handling: <details>
