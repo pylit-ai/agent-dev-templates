@@ -10,6 +10,8 @@ All other files may summarize or link to it, but may not become competing source
 ## Canonical homes
 - `NORTHSTAR.md`
   - owns enduring product vision, target users, strategic pillars, and non-goals
+- `NORTHSTAR_METRICS.md`
+  - owns the verifier-aware agent/eval metric system: true objective vs hard gates vs headline northstar vs diagnostics, anti-Goodhart analysis, stopping rules, and verifier trust boundaries (subordinate to `NORTHSTAR.md` for product intent)
 - `CONSTITUTION.md`
   - owns project-wide invariants, quality gates, safety rules, and engineering governance
 - `AGENTS.md`
@@ -42,7 +44,8 @@ All other files may summarize or link to it, but may not become competing source
 4. Path-scoped rules / nearest local instructions
 5. `PRD.md`
 6. `NORTHSTAR.md`
-7. Non-canonical summaries
+7. `NORTHSTAR_METRICS.md` (subordinate to `NORTHSTAR.md` for product intent)
+8. Non-canonical summaries
 
 ## Single-source rule
 - Do not copy acceptance criteria from specs into `AGENTS.md`.
@@ -75,6 +78,12 @@ All other files may summarize or link to it, but may not become competing source
 2. `PRD.md`
 3. `CONSTITUTION.md`
 
+### If defining agent evals, optimization targets, or northstar metrics
+1. `NORTHSTAR_METRICS.md`
+2. `NORTHSTAR.md`
+3. `PRD.md`
+4. `CONSTITUTION.md`
+
 ### If implementing or changing a feature
 1. active `specs/<id>/spec.md`
 2. active `specs/<id>/plan.md`
@@ -90,6 +99,7 @@ All other files may summarize or link to it, but may not become competing source
 
 ## Update triggers
 - Update `NORTHSTAR.md` when mission, target users, strategic pillars, or non-goals change.
+- Update `NORTHSTAR_METRICS.md` when the agent/eval headline metric, hard gates, stopping rules, or verifier stack materially changes.
 - Update `CONSTITUTION.md` when a project-wide invariant, safety rule, or quality gate changes.
 - Update `AGENTS.md` when repo layout, commands, routing, or approval boundaries change.
 - Update `PRD.md` when current epic or product scope changes.

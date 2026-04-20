@@ -3,6 +3,7 @@ canonical_entrypoint: AGENTS.md
 
 owners:
   NORTHSTAR.md: founder
+  NORTHSTAR_METRICS.md: platform
   CONSTITUTION.md: platform
   AGENTS.md: devex
   PRD.md: product
@@ -37,6 +38,19 @@ documents:
       - migration_policy_change
     consumers:
       - coding_agents
+
+  - path: NORTHSTAR_METRICS.md
+    role: agent_metrics
+    canonical: true
+    update_trigger:
+      - eval_headline_change
+      - hard_gate_change
+      - verifier_stack_change
+      - stopping_rule_change
+    consumers:
+      - humans
+      - planning_agents
+      - operators
 
 adapters:
   - path: CLAUDE.md

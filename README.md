@@ -61,10 +61,10 @@ Then **point your agent at AGENTS.md** in the new repo. For greenfield, give a o
 **Copy-paste prompt** (add your one-sentence brief first):
 
 ```
-Run the repo-os-greenfield-bootstrap skill: read AGENTS.md and .agents/skills/repo-os-greenfield-bootstrap/SKILL.md, then fill NORTHSTAR.md, PRD.md, docs/architecture/overview.md, and specs/001-bootstrap using .agents/skills/repo-os-greenfield-bootstrap/references/rubric.md. Align AGENTS.md with our real commands. Run scripts/check-governance if present.
+Run the repo-os-greenfield-bootstrap skill: read AGENTS.md and .agents/skills/repo-os-greenfield-bootstrap/SKILL.md, then fill NORTHSTAR.md, NORTHSTAR_METRICS.md, PRD.md, docs/architecture/overview.md, and specs/001-bootstrap using .agents/skills/repo-os-greenfield-bootstrap/references/rubric.md. Align AGENTS.md with our real commands. Run scripts/check-governance if present.
 ```
 
-**What gets filled:** NORTHSTAR (mission, personas, thesis, non-goals, kill criteria) · PRD (product, users, scope, stories, requirements) · docs/architecture/overview · specs/001-bootstrap (in-scope, acceptance criteria, verifiers). Cursor: `.agents/skills/repo-os-greenfield-bootstrap/`. Claude: `.claude/commands/bootstrap-repo.md` or repo-bootstrapper subagent.
+**What gets filled:** NORTHSTAR (mission, personas, thesis, non-goals, kill criteria) · NORTHSTAR_METRICS (gates, headline northstar, diagnostics, stopping rules) · PRD (product, users, scope, stories, requirements) · docs/architecture/overview · specs/001-bootstrap (in-scope, acceptance criteria, verifiers). Cursor: `.agents/skills/repo-os-greenfield-bootstrap/`. Claude: `.claude/commands/bootstrap-repo.md` or repo-bootstrapper subagent.
 
 </details>
 
@@ -100,6 +100,7 @@ Cursor: `.agents/skills/repo-os-brownfield-intake/`. Claude: `.claude/commands/i
 |----------|---------|
 | **AGENTS.md** | Entrypoint for agents: read order, commands, boundaries. |
 | **NORTHSTAR.md** | Vision: goals, non-goals, success criteria. |
+| **NORTHSTAR_METRICS.md** | Verifier-aware agent/eval metrics: gates, headline northstar, stopping rules. |
 | **CONSTITUTION.md** | Principles, doc hierarchy. |
 | **PRD.md** | Product scope, users, tradeoffs. |
 | **specs/** | Spec-driven work; each change has a spec + registry entry. |
@@ -135,6 +136,7 @@ uv run agentic-dev init my-new-repo
 ```
 repo/
 ├── NORTHSTAR.md
+├── NORTHSTAR_METRICS.md
 ├── CONSTITUTION.md
 ├── AGENTS.md
 ├── PRD.md

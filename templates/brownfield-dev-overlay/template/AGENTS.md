@@ -17,6 +17,12 @@ Use it to find the correct source of truth.
 2. `PRD.md`
 3. `CONSTITUTION.md`
 
+### If defining agent evals, optimization targets, or northstar metrics
+1. `NORTHSTAR_METRICS.md`
+2. `NORTHSTAR.md`
+3. `PRD.md`
+4. `CONSTITUTION.md`
+
 ### If implementing or modifying a feature
 1. active `specs/<id>/spec.md`
 2. active `specs/<id>/plan.md`
@@ -34,6 +40,7 @@ Use it to find the correct source of truth.
 - `CURRENT_STATE.md` — descriptive legacy reality (brownfield)
 - `MIGRATION_GUARDRAILS.md` — rules for changing legacy safely
 - `NORTHSTAR.md` — enduring product vision and non-goals
+- `NORTHSTAR_METRICS.md` — verifier-aware agent/eval metrics (gates, headline northstar, stopping rules)
 - `CONSTITUTION.md` — project-wide invariants and safety rules
 - `PRD.md` — current product / epic scope
 - `docs/governance/DOCS_SYSTEM.md` — documentation taxonomy and precedence

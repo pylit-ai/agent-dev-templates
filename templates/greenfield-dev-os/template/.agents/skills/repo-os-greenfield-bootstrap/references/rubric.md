@@ -6,6 +6,12 @@ Use this when filling placeholders so output stays consistent.
 - Mission: one sentence, &lt;product&gt; for &lt;user&gt; so they can &lt;outcome&gt; with less &lt;pain&gt;.
 - Non-goals: at least two; use "We are not building X" / "We will not optimize for Y in v1."
 
+## NORTHSTAR_METRICS.md
+- Separate **hard gates** (§D) from the **headline northstar** (§E); never average gates into a single score.
+- Headline should be gate-qualified (fresh tasks → trusted resolution within budget after gates pass).
+- Fill §G–§K (diagnostics, stopping, anti-Goodhart) before treating metrics as production-ready.
+- Prefer repository evidence; label provisional assumptions in the assumptions table.
+
 ## PRD.md
 - At least one primary and one secondary user.
 - At least three in-scope items and two out-of-scope.
